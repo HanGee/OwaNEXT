@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/">
+        <file>content/launcher/launcher.qml</file>
+        <file>content/launcher/modules/Desktop.qml</file>
+        <file>content/launcher/modules/Desktops.qml</file>
+        <file>content/launcher/modules/GridContainer.qml</file>
+        <file>content/launcher/modules/GridContainer/IconItem.qml</file>
+        <file>content/launcher/modules/Effects/CurtainEffect.qml</file>
+        <file>content/launcher/backgrounds/1.jpg</file>
+        <file>content/launcher/Images/widget1.png</file>
+        <file>content/launcher/Images/widget2.png</file>
+        <file>content/launcher/Images/widget3.png</file>
+        <file>content/launcher/Images/widget4.png</file>
+        <file>content/launcher/Images/widget5.png</file>
+        <file>content/launcher/Images/widget6.png</file>
+        <file>content/launcher/Images/widget7.png</file>
+        <file>content/launcher/Images/widget8.png</file>
+        <file>content/launcher/Images/widget9.png</file>
+        <file>content/launcher/Images/widget10.png</file>
+        <file>content/launcher/Images/widget11.png</file>
+        <file>content/launcher/Images/widget12.png</file>
+        <file>content/launcher/Images/widget13.png</file>
+        <file>content/launcher/Images/widget14.png</file>
+        <file>content/launcher/Images/widget15.png</file>
+        <file>content/launcher/Images/widget16.png</file>
+        <file>content/launcher/Images/smoke.png</file>
+    </qresource>
+</RCC>
