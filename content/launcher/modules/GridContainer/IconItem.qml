@@ -30,6 +30,7 @@ Item {
 				smooth: true;
 				source: icon;
 				cache: true;
+                asynchronous: true;
 
 				Rectangle {
 					id: active_layer;

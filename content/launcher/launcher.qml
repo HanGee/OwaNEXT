@@ -46,6 +46,7 @@ ApplicationWindow {
         source: 'backgrounds/1.jpg';
         anchors.fill: parent;
 		cache: true;
+        asynchronous: true;
     }
 /*
     FastBlur {
