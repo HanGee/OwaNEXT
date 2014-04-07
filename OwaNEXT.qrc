@@ -24,5 +24,6 @@
         <file>content/launcher/Images/widget15.png</file>
         <file>content/launcher/Images/widget16.png</file>
         <file>content/launcher/Images/smoke.png</file>
+        <file>content/launcher/launcher.js</file>
     </qresource>
 </RCC>

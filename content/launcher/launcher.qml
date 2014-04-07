@@ -4,6 +4,8 @@ import QtGraphicalEffects 1.0
 import QtQuick.Particles 2.0
 import "modules"
 import "modules/Effects"
+//import "../sandbox/sandbox.js" as HanGee
+import "launcher.js" as HanGee
 
 ApplicationWindow {
 	id: appWindow;
@@ -11,34 +13,7 @@ ApplicationWindow {
     visible: true;
 //    width: 480
 //    height: 800
-	property var apps: [
-/*
-		[
-            { appName: 'Fred' },
-            { appName: 'Fred 2' },
-            { appName: 'Fred 3' },
-            { appName: 'Fred 4' },
-            { appName: 'Fred 5' },
-            { appName: 'Fred 6' }
-		],
-		[
-            { appName: 'Fred' },
-            { appName: 'Fred 2' },
-            { appName: 'Fred 3' },
-            { appName: 'Fred 4' },
-            { appName: 'Fred 5' },
-            { appName: 'Fred 6' }
-		],
-		[
-            { appName: 'Fred' },
-            { appName: 'Fred 2' },
-            { appName: 'Fred 3' },
-            { appName: 'Fred 4' },
-            { appName: 'Fred 5' },
-            { appName: 'Fred 6' }
-		]
-*/
-    ];
+	property var apps: [];
 
     // Background
     Image {
@@ -48,22 +23,16 @@ ApplicationWindow {
 		cache: true;
         asynchronous: true;
     }
-/*
-    FastBlur {
-        anchors.fill: background;
-        source: background;
-        radius: 8;
-		cached: true;
-    }
-*/
+
     Desktops {
         id: desktops;
         anchors.fill: parent;
     }
 
     Component.onCompleted: {
+
 		// Getting applications
-        var _apps = packageManager.getApps([ 'LAUNCHER' ]);
+        var _apps = HanGee.packageManager.getApps([ 'LAUNCHER' ]);
 
 		// Create desktops and put apps
         var list = [];

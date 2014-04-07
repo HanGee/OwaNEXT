@@ -7,10 +7,13 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
+    QVariantMap hangee;
 
     /* Initializing APIs */
     PackageManager *packageManager = new PackageManager();
-    engine.rootContext()->setContextProperty("packageManager", packageManager);
+    hangee.insert("packageManager", QVariant::fromValue(packageManager));
+
+    engine.rootContext()->setContextProperty("hangee", QVariant::fromValue(hangee));
 
     /* Load QML file */
     engine.load(QUrl("qrc:///content/launcher/launcher.qml"));

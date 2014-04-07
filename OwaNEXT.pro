@@ -6,7 +6,8 @@ OTHER_FILES += \
     src/android/src/org/hangee/system/packagemanager/PackageManager.java \
     src/android/AndroidManifest.xml \
     content/launcher/launcher.qml \
-    content/launcher/applauncher.qml \
+	content/launcher/launcher.js \
+	content/launcher/applauncher.qml \
     content/launcher/modules/Desktop.qml \
     content/launcher/modules/Desktops.qml \
     content/launcher/modules/GridContainer.qml \

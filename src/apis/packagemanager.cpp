@@ -37,17 +37,17 @@ QVariantList PackageManager::getApps(QList<QString> categories)
         // App name
         QAndroidJniObject fieldName = QAndroidJniObject::fromString("appName");
         QAndroidJniObject appNameObj = jInfo.callObjectMethod("get", "(Ljava/lang/Object;)Ljava/lang/Object;", fieldName.object<jobject>());
-        appInfo.insert("appName",  appNameObj.toString());
+        appInfo.insert("appName", appNameObj.toString());
 
         // Package name
         QAndroidJniObject fieldPackageName = QAndroidJniObject::fromString("packageName");
         QAndroidJniObject packageNameObj = jInfo.callObjectMethod("get", "(Ljava/lang/Object;)Ljava/lang/Object;", fieldPackageName.object<jobject>());
-        appInfo.insert("packageName",  packageNameObj.toString());
+        appInfo.insert("packageName", packageNameObj.toString());
 
         // Activity name
         QAndroidJniObject fieldActivityName = QAndroidJniObject::fromString("activityName");
         QAndroidJniObject activityNameObj = jInfo.callObjectMethod("get", "(Ljava/lang/Object;)Ljava/lang/Object;", fieldActivityName.object<jobject>());
-        appInfo.insert("activityName",  activityNameObj.toString());
+        appInfo.insert("activityName", activityNameObj.toString());
 
         appList.append(QVariant(appInfo));
     }
