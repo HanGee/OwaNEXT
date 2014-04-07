@@ -26,12 +26,9 @@ Item {
 			anchors.fill: parent
 
 			onClicked: {
-				// TODO: Launch application
+                // Launch application
                 var icon = icons.get(index);
                 if (icon) {
-                    console.log(icon.app.appName);
-                    console.log(icon.app.packageName);
-                    console.log(icon.app.activityName);
                     packageManager.startApp(icon.app);
                 }
             }
