@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
 import "GridContainer"
+import "../launcher.js" as HanGee
 
 Item {
 	id: gridContainer;
@@ -29,7 +30,7 @@ Item {
                 // Launch application
                 var icon = icons.get(index);
                 if (icon) {
-                    packageManager.startApp(icon.app);
+                    HanGee.packageManager.startApp(icon.app);
                 }
             }
 

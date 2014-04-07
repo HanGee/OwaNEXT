@@ -4,7 +4,6 @@ import QtGraphicalEffects 1.0
 import QtQuick.Particles 2.0
 import "modules"
 import "modules/Effects"
-//import "../sandbox/sandbox.js" as HanGee
 import "launcher.js" as HanGee
 
 ApplicationWindow {
@@ -13,7 +12,7 @@ ApplicationWindow {
     visible: true;
 //    width: 480
 //    height: 800
-	property var apps: [];
+    property var apps: [];
 
     // Background
     Image {

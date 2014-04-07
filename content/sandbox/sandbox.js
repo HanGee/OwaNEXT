@@ -2,4 +2,6 @@
 
 Qt.include('PackageManager.js');
 
-var packageManager = new PackageManager();
+var hangee = {
+	packageManager: new PackageManager()
+};
