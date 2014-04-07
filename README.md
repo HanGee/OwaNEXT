@@ -13,17 +13,12 @@ Development with sandbox
 ---
 Running application with OwaNEXT is not quite easy, it's always taking a lot time to build and deploy on Android. We must have mechanism to reduce testing time during development of application. Sandbox feature was made for solving this problem and making developer work more efficiently.
 
-If you wanna run launcher in sandbox mode, taking off a line in launcher.qml:
+If you wanna run launcher in sandbox mode, add a line to launcher.js:
 ```
-import "launcher.js" as HanGee
-```
-
-Then adding a new line:
-```
-import "../sandbox/sandbox.js" as HanGee
+Qt.include('../sandbox/sandbox.js');
 ```
 
-Run it with qml viewer:
+Save it and run launcher with qml viewer:
 ```
 qml launcher.qml
 ```
