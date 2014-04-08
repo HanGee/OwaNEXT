@@ -5,18 +5,18 @@
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
-    QQmlApplicationEngine engine;
-    QVariantMap hangee;
+	QGuiApplication app(argc, argv);
+	QQmlApplicationEngine engine;
+	QVariantMap hangee;
 
-    /* Initializing APIs */
-    PackageManager *packageManager = new PackageManager();
-    hangee.insert("packageManager", QVariant::fromValue(packageManager));
+	/* Initializing APIs */
+	PackageManager *packageManager = new PackageManager();
+	hangee.insert("packageManager", QVariant::fromValue(packageManager));
 
-    engine.rootContext()->setContextProperty("hangee", QVariant::fromValue(hangee));
+	engine.rootContext()->setContextProperty("hangee", QVariant::fromValue(hangee));
 
-    /* Load QML file */
-    engine.load(QUrl("qrc:///content/launcher/launcher.qml"));
+	/* Load QML file */
+	engine.load(QUrl("qrc:///content/launcher/launcher.qml"));
 
-    return app.exec();
+	return app.exec();
 }

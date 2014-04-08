@@ -12,10 +12,10 @@ Item {
 	GridView {
 		id: grid;
 		interactive: false;
-        anchors.fill: parent;
-        cellWidth: width * 0.25;
-        cellHeight: height * 0.22;
-        model: parent.model;
+		anchors.fill: parent;
+		cellWidth: width * 0.25;
+		cellHeight: height * 0.22;
+		model: parent.model;
 		delegate: IconItem {}
 
 		MouseArea {
@@ -27,12 +27,12 @@ Item {
 			anchors.fill: parent
 
 			onClicked: {
-                // Launch application
-                var icon = icons.get(index);
-                if (icon) {
-                    HanGee.packageManager.startApp(icon.app);
-                }
-            }
+				// Launch application
+				var icon = icons.get(index);
+				if (icon) {
+					HanGee.packageManager.startApp(icon.app);
+				}
+			}
 
 			onPressAndHold: {
 				var icon = icons.get(index);

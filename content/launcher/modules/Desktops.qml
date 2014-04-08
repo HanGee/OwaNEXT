@@ -10,25 +10,25 @@ Item {
 
 	// Pagination on the bottom
 	Item {
-        id: paginationBar;
+		id: paginationBar;
 		anchors.bottom: desktopView.bottom;
 		anchors.left: desktopView.left;
 		anchors.right: desktopView.right;
 		height: 50;
 
-        ListView {
-            id: pagination;
+		ListView {
+			id: pagination;
 			orientation: ListView.Horizontal;
 			anchors.horizontalCenter: paginationBar.horizontalCenter;
 			interactive: false;
 			focus: true;
-            width: desktops.width * 0.1 * model.count;
-            contentWidth: desktops.width * 0.1;
+			width: desktops.width * 0.1 * model.count;
+			contentWidth: desktops.width * 0.1;
 			highlightRangeMode: ListView.ApplyRange;
 			snapMode: ListView.SnapToItem;
 			model: ListModel {}
 			delegate: Item {
-                width: desktops.width * 0.1;
+				width: desktops.width * 0.1;
 				height: paginationBar.height;
 
 				Rectangle {
@@ -79,10 +79,10 @@ Item {
 		highlightRangeMode: ListView.StrictlyEnforceRange
 		orientation: ListView.Horizontal;
 		snapMode: ListView.SnapOneItem;
-        cacheBuffer: desktopView.width * model.count;
+		cacheBuffer: desktopView.width * model.count;
 		maximumFlickVelocity: desktopView.width * 6;
 		flickDeceleration: maximumFlickVelocity * 0.6;
-        model: ListModel {}
+		model: ListModel {}
 		delegate: Desktop {}
 
 		onFlickStarted: {

@@ -30,7 +30,7 @@ Item {
 				smooth: true;
 				source: icon;
 				cache: true;
-                asynchronous: true;
+				asynchronous: true;
 
 				Rectangle {
 					id: active_layer;
@@ -105,7 +105,7 @@ Item {
 			radius: 8;
 			samples: 16;
 			color: '#55000000';
-            cached: true;
+			cached: true;
 		}
 
 		NumberAnimation {
