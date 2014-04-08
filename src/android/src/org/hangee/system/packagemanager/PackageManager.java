@@ -15,10 +15,10 @@ import android.os.Bundle;
 public class PackageManager extends QtActivity
 {
 	private static HashMap<String, String> categoryMap;
-    private static PackageManager m_instance;
+	private static PackageManager m_instance;
 
-    public PackageManager()
-    {
+	public PackageManager()
+	{
 		m_instance = this;
 
 		categoryMap = new HashMap();
@@ -38,18 +38,18 @@ public class PackageManager extends QtActivity
 	public static ArrayList getApps(String[] categories)
 	{
 		HashMap<String, Object> app;
-        ArrayList<HashMap<String, Object>> apps = new ArrayList();
-        String category;
+		ArrayList<HashMap<String, Object>> apps = new ArrayList();
+		String category;
 
 		final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
 
-        // Set category filter
+		// Set category filter
 		for (int i = 0; i < categories.length; i++) {
-            category = categoryMap.get(categories[i]);
-            mainIntent.addCategory(category);
-        }
+			category = categoryMap.get(categories[i]);
+			mainIntent.addCategory(category);
+		}
 
-        // Getting application list
+		// Getting application list
 		final List<ResolveInfo> pkgAppList = m_instance.getPackageManager().queryIntentActivities(mainIntent, 0);
 		for (int i = 0; i < pkgAppList.size(); i++) {
 			ResolveInfo info = pkgAppList.get(i);
@@ -60,9 +60,9 @@ public class PackageManager extends QtActivity
 
 			// TODO: support icon
 
-            apps.add(app);
-        }
+			apps.add(app);
+		}
 
 		return apps;
-    }
+	}
 }
