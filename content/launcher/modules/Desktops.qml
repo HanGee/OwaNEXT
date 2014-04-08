@@ -79,7 +79,9 @@ Item {
 		highlightRangeMode: ListView.StrictlyEnforceRange
 		orientation: ListView.Horizontal;
 		snapMode: ListView.SnapOneItem;
-        cacheBuffer: parent.width * model.count;
+        cacheBuffer: desktopView.width * model.count;
+		maximumFlickVelocity: desktopView.width * 6;
+		flickDeceleration: maximumFlickVelocity * 0.6;
         model: ListModel {}
 		delegate: Desktop {}
 
