@@ -11,8 +11,9 @@ int main(int argc, char *argv[])
 
 	/* Initializing APIs */
 	PackageManager *packageManager = new PackageManager();
-	hangee.insert("packageManager", QVariant::fromValue(packageManager));
+	packageManager->setEngine(&engine);
 
+	hangee.insert("packageManager", QVariant::fromValue(packageManager));
 	engine.rootContext()->setContextProperty("hangee", QVariant::fromValue(hangee));
 
 	/* Load QML file */

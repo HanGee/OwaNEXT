@@ -6,11 +6,18 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.ArrayList;
 import android.util.Log;
+import android.util.DisplayMetrics;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
+import android.content.pm.PackageInfo;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Bitmap;
 
 public class PackageManager extends QtActivity
 {
@@ -58,11 +65,36 @@ public class PackageManager extends QtActivity
 			app.put("packageName", info.activityInfo.packageName);
 			app.put("activityName", info.activityInfo.name);
 
-			// TODO: support icon
-
 			apps.add(app);
 		}
 
 		return apps;
+	}
+
+	public static Bitmap getAppIcon(String pkgName)
+	{
+		Bitmap bitmap;
+		BitmapDrawable icon;
+
+		try {
+
+
+			// Getting high resolution icon
+			PackageInfo info = m_instance.getPackageManager().getPackageInfo(pkgName, 0);
+			if (info.applicationInfo.icon != 0) {
+				Resources res = m_instance.getPackageManager().getResourcesForApplication(pkgName);
+				icon = (BitmapDrawable) res.getDrawableForDensity(info.applicationInfo.icon, DisplayMetrics.DENSITY_XHIGH);
+			} else {
+				// There is no high resolution icon, fallback to original one
+				icon = (BitmapDrawable) m_instance.getPackageManager().getApplicationIcon(pkgName);
+			}
+
+			bitmap = icon.getBitmap();
+
+		} catch(NameNotFoundException e) {
+			bitmap = null;	
+		}
+
+		return bitmap;
 	}
 }

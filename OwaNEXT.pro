@@ -2,6 +2,8 @@ QT += quick androidextras
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/src/android
 
+LIBS += -ljnigraphics
+
 OTHER_FILES += \
 	src/android/src/org/hangee/system/packagemanager/PackageManager.java \
 	src/android/AndroidManifest.xml \

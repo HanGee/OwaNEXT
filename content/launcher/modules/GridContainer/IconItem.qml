@@ -28,7 +28,7 @@ Item {
 				height: item.height - padding * 2;
 				fillMode: Image.PreserveAspectFit;
 				smooth: true;
-				source: icon;
+				source: app.iconPath;
 				cache: true;
 				asynchronous: true;
 
