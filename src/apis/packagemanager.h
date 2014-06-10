@@ -16,10 +16,14 @@ public:
 	Q_INVOKABLE QVariantList getApps(QList<QString> categories);
 	Q_INVOKABLE void startApp(QVariantMap app);
 
+    void emitPackageAdded(QString packageName, QString appName, QString activityName);
+    void emitPackageRemoved(QString packageName);
+
 	QQmlApplicationEngine *engine;
 
 signals:
-
+    void packageAdded(QString packageName, QString appName, QString activityName);
+    void packageRemoved(QString packageName);
 public slots:
 
 };

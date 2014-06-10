@@ -29,7 +29,7 @@ Item {
 			icons.append({
 				gridId: index,
 				icon: '../../Images/widget' + (parseInt(index) + 1) + '.png',
-				label: app.appName,
+                label: app.appName,
 				initialized: desktops.initialized,
 				app: app
 			});

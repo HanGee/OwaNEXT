@@ -4,6 +4,7 @@
 #include <QBitmap>
 #include <QPixmap>
 #include <QByteArray>
+#include <QDebug>
 #include <android/bitmap.h>
 #include "packagemanager.h"
 
@@ -159,4 +160,14 @@ void PackageManager::startApp(QVariantMap app)
 		"(Ljava/lang/String;Ljava/lang/String;)V",
 		packageName.object<jstring>(),
 		activityName.object<jstring>());
+}
+
+void PackageManager::emitPackageAdded(QString packageName, QString appName, QString activityName)
+{
+    emit packageAdded(packageName, appName, activityName);
+}
+
+void PackageManager::emitPackageRemoved(QString packageName)
+{
+    emit packageRemoved(packageName);
 }

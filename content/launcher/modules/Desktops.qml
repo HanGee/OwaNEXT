@@ -98,6 +98,12 @@ Item {
 		}
 	}
 
+    function removeAllApps()
+    {
+        pagination.model.clear();
+        desktopView.model.clear();
+    }
+
 	function addDesktop() {
 
 		// Create a new desktop

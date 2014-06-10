@@ -27,7 +27,8 @@ OTHER_FILES += \
 	content/launcher/Images/widget10.png \
 	content/launcher/Images/widget11.png \
 	content/launcher/Images/widget12.png \
-	content/launcher/Images/widget13.png
+	content/launcher/Images/widget13.png \
+    src/android/src/org/hangee/system/packagemanager/BroadcastManager.java
 
 RESOURCES += \
 	OwaNEXT.qrc
