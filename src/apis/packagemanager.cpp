@@ -83,6 +83,7 @@ public:
 PackageManager::PackageManager(QObject *parent) :
 	QObject(parent)
 {
+    emit packageListReady();
 }
 
 void PackageManager::setEngine(QQmlApplicationEngine *_engine)

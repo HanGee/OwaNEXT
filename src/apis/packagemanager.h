@@ -22,8 +22,10 @@ public:
 	QQmlApplicationEngine *engine;
 
 signals:
+    void packageListReady();
     void packageAdded(QString packageName, QString appName, QString activityName);
     void packageRemoved(QString packageName);
+
 public slots:
 
 };

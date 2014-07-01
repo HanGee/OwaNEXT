@@ -1,5 +1,11 @@
 "use strict";
 
-Qt.include('../sandbox/sandbox.js');
-
-var packageManager = hangee.packageManager;
+var isSandbox = (typeof(hangee) == "undefined");
+if (isSandbox)
+{
+    Qt.include('../sandbox/sandbox.js');
+}
+else
+{
+    var packageManager = hangee.packageManager;
+}
