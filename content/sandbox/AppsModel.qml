@@ -7,7 +7,7 @@ Item {
     property var previousApps: new Array()
     property alias folder: folderModel.folder
     signal appsListChanged
-    signal packageAdded(string appName, string activityName, string packageName)
+    signal packageAdded(string appName, string activityName, string packageName, string iconPath)
     signal packageRemoved(string appName)
 
     function setupAppsInfo() {
@@ -21,19 +21,22 @@ Item {
             if (component.status == Component.Ready)
             {
                 var app = component.createObject();
+                app.iconPath = filepath + "/" + app.iconPath;
+
             }
             else
             {
                 var app;
                 app.activityName = foldername;
                 app.packageName = "org.unknown." + foldername;
-
+                app.iconPath = filepath + "/../../defaulticon.png"
             }
 
             apps.push({
                           appName: foldername,
                           activity: app.activityName,
-                          packageName: app.packageName
+                          packageName: app.packageName,
+                          iconPath: app.iconPath
                       })
             console.log(foldername + ":" + app.activityName + ":" + app.packageName);
         }
@@ -72,7 +75,7 @@ Item {
             } else if (previousApps.length < apps.length) {
                 var diff = diffArray(apps, previousApps);
                 packageAdded(diff[0].appName, diff[0].activityName,
-                             diff[0].packageName)
+                             diff[0].packageName, diff[0].iconPath)
             }
         }
     }

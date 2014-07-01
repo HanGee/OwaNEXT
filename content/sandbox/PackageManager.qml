@@ -7,7 +7,7 @@ Item {
     property alias folder:appsModel.folder
     signal packageListReady
     signal packageRemoved(string packageName)
-    signal packageAdded(string appName, string activityName, string packageName)
+    signal packageAdded(string appName, string activityName, string packageName, string iconPath)
     function getApps()
     {
         return appsModel.apps;
@@ -27,7 +27,7 @@ Item {
         onPackageAdded:
         {
             console.log("[test module] package added")
-            manager.packageAdded(appName, activityName, packageName);
+            manager.packageAdded(appName, activityName, packageName, iconPath);
         }
     }
 
