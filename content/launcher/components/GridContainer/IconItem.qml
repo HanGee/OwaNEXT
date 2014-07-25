@@ -17,17 +17,38 @@ Item {
 
 		Item {
 			id: image;
-			anchors.centerIn: parent;
 			anchors.fill: item;
+
+			Item {
+				id: itemCaption;
+				height: iconLabel.font.pixelSize * 3;
+				anchors.left: image.left;
+				anchors.right: image.right;
+				anchors.bottom: image.bottom;
+
+				Text {
+					id: iconLabel;
+					anchors.fill: itemCaption;
+					horizontalAlignment: Text.AlignHCenter;
+					font.pointSize: 10;
+					color: 'white';
+					text: app.appName;
+					visible: item.state != 'active'
+					wrapMode: Text.WordWrap;
+					maximumLineCount: 2;
+					style: Text.Raised;
+					styleColor: '#44000000';
+				}
+			}
 
 			Image {
 				id: itemIcon;
-				anchors.centerIn: parent;
 				anchors.margins: padding;
-				width: item.width - padding * 2;
-				height: item.height - padding * 2;
+				anchors.top: image.top;
+				anchors.bottom: itemCaption.top;
+				anchors.left: image.left;
+				anchors.right: image.right;
 				fillMode: Image.PreserveAspectFit;
-				smooth: true;
 				source: app.iconPath;
 				cache: true;
 				asynchronous: true;
@@ -35,27 +56,15 @@ Item {
 				Rectangle {
 					id: active_layer;
 					anchors.fill: parent;
-					color: "transparent";
+					color: 'transparent';
 					radius: 5;
-					visible: item.state == "active"
+					visible: item.state == 'active'
 				}
-			}
-
-			Text {
-				id: iconLabel;
-				anchors.bottom: image.bottom;
-				width: image.width;
-				horizontalAlignment: Text.AlignHCenter;
-				verticalAlignment: Text.AlignVCenter;
-				color: 'white';
-				font.pointSize: 14;
-				text: label;
-				visible: item.state != "active"
 			}
 		}
 
 		Behavior on x {
-			enabled: (item.state != "active" && gridContainer.layoutable);
+			enabled: (item.state != 'active' && gridContainer.layoutable);
 			NumberAnimation {
 				duration: 400;
 				easing.type: Easing.OutBack
@@ -63,7 +72,7 @@ Item {
 		}
 
 		Behavior on y {
-			enabled: (item.state != "active" && gridContainer.layoutable);
+			enabled: (item.state != 'active' && gridContainer.layoutable);
 			NumberAnimation {
 				duration: 400;
 				easing.type: Easing.OutBack
@@ -74,17 +83,17 @@ Item {
 			NumberAnimation { to:  2; duration: 50 }
 			NumberAnimation { to: -2; duration: 90 }
 			NumberAnimation { to:  0; duration: 50 }
-			running: loc.currentId != -1 && item.state != "active"
+			running: loc.currentId != -1 && item.state != 'active'
 			loops: Animation.Infinite;
 			alwaysRunToEnd: true;
 		}
 
 		states: State {
-			name: "active"; when: loc.currentId == gridId
+			name: 'active'; when: loc.currentId == gridId
 			PropertyChanges {
 				target: item;
-				x: loc.mouseX - width * 0.5;
-				y: loc.mouseY - height * 0.5;
+				x: loc.mouseX - (itemIcon.width >> 1);
+				y: loc.mouseY - (itemIcon.height >> 1);
 				scale: 1.5;
 				z: 10
 			}
@@ -102,8 +111,8 @@ Item {
 			id: itemGlow;
 			anchors.fill: image;
 			source: image;
-			radius: 8;
-			samples: 16;
+			radius: 4;
+			samples: 8;
 			color: '#55000000';
 			cached: true;
 		}

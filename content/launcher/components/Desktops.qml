@@ -1,20 +1,23 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
 import QtGraphicalEffects 1.0
+import '../owanext/hangee.js' as HanGee
 
 Item {
 	id: desktops;
 
 	property variant model: null;
 	property bool initialized: false;
+	property int lastCount: 0;
+	property int count: 0;
 
 	// Pagination on the bottom
 	Item {
 		id: paginationBar;
-		anchors.bottom: desktopView.bottom;
-		anchors.left: desktopView.left;
-		anchors.right: desktopView.right;
-		height: 50;
+		anchors.bottom: desktops.bottom;
+		anchors.left: desktops.left;
+		anchors.right: desktops.right;
+		height: 30;
 
 		ListView {
 			id: pagination;
@@ -57,7 +60,7 @@ Item {
 
 				RectangularGlow {
 					anchors.fill: paginationDot;
-					glowRadius: 8;
+					glowRadius: 4;
 					spread: 0.5;
 					color: '#ffffffff';
 					cached: true;
@@ -73,14 +76,14 @@ Item {
 		anchors.left: parent.left;
 		anchors.right: parent.right;
 		anchors.top: parent.top;
-		anchors.bottom: parent.bottom;
+		anchors.bottom: paginationBar.top;
 		contentWidth: desktops.width;
 		contentHeight: desktops.height;
 		highlightRangeMode: ListView.StrictlyEnforceRange
 		orientation: ListView.Horizontal;
 		snapMode: ListView.SnapOneItem;
 		cacheBuffer: desktopView.width * model.count;
-		maximumFlickVelocity: desktopView.width * 6;
+		maximumFlickVelocity: width * 6;
 		flickDeceleration: maximumFlickVelocity * 0.6;
 		model: ListModel {}
 		delegate: Desktop {}
@@ -98,12 +101,6 @@ Item {
 		}
 	}
 
-    function removeAllApps()
-    {
-        pagination.model.clear();
-        desktopView.model.clear();
-    }
-
 	function addDesktop() {
 
 		// Create a new desktop
@@ -115,5 +112,40 @@ Item {
 		pagination.model.append({
 			desktopId: pagination.model.count
 		})
+
+		console.log('ADDED DESKTOP');
+	}
+
+	Connections {
+		target: HanGee.packageManager;
+
+		onPackageAdded: {
+			initialized = false;
+		}
+
+		onPackageRemoved: {
+			initialized = false;
+		}
+	}
+
+	onCountChanged: {
+		var delta = 0;
+		if (lastCount < count)
+			delta = count - lastCount;
+
+		// Store current counter value
+		lastCount = count;
+
+		// Add desktop
+		for (var i = 0; i < lastCount; i++) {
+			addDesktop();
+		}
+	}
+
+	Component.onCompleted: {
+
+		for (var i = 0; i < count; i++) {
+			addDesktop();
+		}
 	}
 }

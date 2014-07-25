@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
-import "GridContainer"
-import "../launcher.js" as HanGee
+import '../owanext/hangee.js' as HanGee
+import 'GridContainer'
 
 Item {
 	id: gridContainer;
@@ -14,7 +14,7 @@ Item {
 		interactive: false;
 		anchors.fill: parent;
 		cellWidth: width * 0.25;
-		cellHeight: height * 0.22;
+		cellHeight: height * 0.25;
 		model: parent.model;
 		delegate: IconItem {}
 
@@ -28,19 +28,21 @@ Item {
 
 			onClicked: {
 				// Launch application
-				var icon = icons.get(index);
+				var icon = model.get(index);
 				if (icon) {
 					HanGee.packageManager.startApp(icon.app);
 				}
 			}
 
 			onPressAndHold: {
-				var icon = icons.get(index);
+				// Pick up icon
+				var icon = model.get(index);
 				if (icon) {
 					newIndex = index;
 					currentId = icon.gridId;
 				}
 
+				// Switch to layouting mode
 				gridContainer.layoutable = true;
 				desktopView.interactive = false;
 
@@ -52,6 +54,7 @@ Item {
 			}
 
 			onPressed: {
+				// Pick up icon
 				curItem = grid.itemAt(mouseX, mouseY);
 				if (curItem)
 					curItem.pressed();
@@ -73,8 +76,10 @@ Item {
 			}
 
 			onPositionChanged: {
+
+				// Re-layout icons
 				if (loc.currentId != -1 && index != -1 && index != newIndex) {
-					icons.move(newIndex, index, 1);
+					model.move(newIndex, index, 1);
 					newIndex = index;
 				}
 			}

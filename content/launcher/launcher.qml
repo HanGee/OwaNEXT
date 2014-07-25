@@ -1,89 +1,36 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
-import QtGraphicalEffects 1.0
-import QtQuick.Particles 2.0
-import "modules"
-import "modules/Effects"
-import "launcher.js" as HanGee
+import 'owanext/hangee.js' as HanGee
+import 'owanext/PackageManager'
+import 'components'
 
 ApplicationWindow {
-    id: appWindow
-    color: 'black'
-    visible: true
-    property var apps: []
+	visible: true;
+	width: 320;
+	height: 480;
+	color: 'black';
 
-    // Background
-    Image {
-        id: background
-        source: 'backgrounds/1.jpg'
-        anchors.fill: parent
-        cache: true
-        asynchronous: true
-    }
+	Image {
+		anchors.fill: parent;
+		source: 'images/background.jpg';
+		cache: true;
+		fillMode: Image.PreserveAspectCrop;
+		smooth: true;
+		asynchronous: true;
+	}
 
-    Desktops {
-        id: desktops
-        anchors.fill: parent
-    }
+	Desktops {
+		id: desktops;
+		anchors.fill: parent;
+	}
 
-    Connections {
-        target: HanGee.packageManager
-        onPackageListReady:
-        {
-            loadAppsToDesktop();
-        }
+	Connections {
+		target: HanGee.core;
 
-        onPackageAdded: {
-            console.log("[QML] Package Added:" + packageName + "[" + appName
-                        + "] - " + activityName)
-            apps = []
-            desktops.removeAllApps()
-            loadAppsToDesktop()
-        }
-
-        onPackageRemoved: {
-            console.log("[QML] Package Removed:" + packageName)
-            apps = []
-            desktops.removeAllApps()
-            loadAppsToDesktop()
-        }
-    }
-
-    Component.onCompleted: {
-        if (HanGee.isSandbox) {
-            width = 480
-            height = 800
-        } else {
-            loadAppsToDesktop()
-        }
-    }
-
-    function loadAppsToDesktop() {
-        // Getting applications
-        var _apps = HanGee.packageManager.getApps(['LAUNCHER'])
-
-        // Create desktops and put apps
-        var list = []
-        var i = 0
-        for (var index in _apps) {
-
-            var app = _apps[index]
-            list.push(app)
-
-            i++
-            if (i == 16) {
-                apps.push(list)
-                list = []
-                i = 0
-            }
-        }
-
-        if (i < 16)
-            apps.push(list)
-
-        for (var index in apps) {
-
-            desktops.addDesktop()
-        }
-    }
+		onReady: {
+			console.log('HanGee Ready');
+			desktops.count = Math.ceil(HanGee.packageManager.getApps([ 'LAUNCHER' ]).length / 16);
+		}
+	}
 }
+
