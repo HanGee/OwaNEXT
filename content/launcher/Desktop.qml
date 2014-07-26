@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
 import QtGraphicalEffects 1.0
-import '../owanext/PackageManager'
+import 'OwaNEXT/Component' 1.0
 
 Item {
 	id: desktop;
@@ -14,6 +14,7 @@ Item {
 		id: gridContainer;
 		anchors.fill: parent;
 		anchors.margins: 2;
+		owaNEXT: owaNEXT;
 
 		model: AppList {
 			paginable: true;

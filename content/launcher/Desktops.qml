@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
 import QtGraphicalEffects 1.0
-import '../owanext/hangee.js' as HanGee
+import 'OwaNEXT' 1.0
 
 Item {
 	id: desktops;
@@ -10,6 +10,23 @@ Item {
 	property bool initialized: false;
 	property int lastCount: 0;
 	property int count: 0;
+
+	OwaNEXT {
+		id: owaNEXT;
+
+		Connections {
+			target: owaNEXT.packageManager;
+
+			onPackageAdded: {
+				initialized = false;
+			}
+
+			onPackageRemoved: {
+				initialized = false;
+			}
+
+		}
+	}
 
 	// Pagination on the bottom
 	Item {
@@ -115,7 +132,7 @@ Item {
 
 		console.log('ADDED DESKTOP');
 	}
-
+/*
 	Connections {
 		target: HanGee.packageManager;
 
@@ -127,7 +144,7 @@ Item {
 			initialized = false;
 		}
 	}
-
+*/
 	onCountChanged: {
 		var delta = 0;
 		if (lastCount < count)

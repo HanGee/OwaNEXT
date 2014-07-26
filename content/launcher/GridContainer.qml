@@ -1,13 +1,17 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
-import '../owanext/hangee.js' as HanGee
-import 'GridContainer'
+import 'OwaNEXT' 1.0
 
 Item {
 	id: gridContainer;
 	property variant model: null;
 	property bool layoutable: false;
 	property var curItem: null;
+	property Item owaNEXT;
+
+	OwaNEXT {
+		id: owaNEXT;
+	}
 
 	GridView {
 		id: grid;
@@ -30,7 +34,7 @@ Item {
 				// Launch application
 				var icon = model.get(index);
 				if (icon) {
-					HanGee.packageManager.startApp(icon.app);
+					owaNEXT.packageManager.startApp(icon.app);
 				}
 			}
 

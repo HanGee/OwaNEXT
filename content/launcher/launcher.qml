@@ -1,14 +1,22 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
-import 'owanext/hangee.js' as HanGee
-import 'owanext/PackageManager'
-import 'components'
+import 'OwaNEXT' 1.0
 
 ApplicationWindow {
 	visible: true;
 	width: 320;
 	height: 480;
 	color: 'black';
+
+	OwaNEXT {
+		id: owaNEXT;
+
+		onReady: {
+			console.log('READY');
+			desktops.count = Math.ceil(owaNEXT.packageManager.getApps([ 'LAUNCHER' ]).length / 16);
+			console.log(owaNEXT.packageManager.getApps([ 'LAUNCHER' ]).length);
+		}
+	}
 
 	Image {
 		anchors.fill: parent;
@@ -22,15 +30,6 @@ ApplicationWindow {
 	Desktops {
 		id: desktops;
 		anchors.fill: parent;
-	}
-
-	Connections {
-		target: HanGee.core;
-
-		onReady: {
-			console.log('HanGee Ready');
-			desktops.count = Math.ceil(HanGee.packageManager.getApps([ 'LAUNCHER' ]).length / 16);
-		}
 	}
 }
 

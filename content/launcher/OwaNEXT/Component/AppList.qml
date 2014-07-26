@@ -1,10 +1,10 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
-import "../hangee.js" as HanGee
 
 ListModel {
 	id: icons;
 
+	property Item owaNEXT;
 	property int filter: 0;
 
 	// Category enumeration
@@ -23,7 +23,8 @@ ListModel {
 			filters.push('LAUNCHER');
 
 		// Getting app list
-		apps = HanGee.packageManager.getApps(filters);
+		//apps = HanGee.packageManager.getApps(filters);
+		apps = owaNEXT.packageManager.getApps(filters);
 
 		if (paginable) {
 			var index = 0;
@@ -41,7 +42,7 @@ ListModel {
 					gridId: index,
 					app: app,
 					startApp: function() {
-						HanGee.packageManager.startApp(app);
+						owaNEXT.packageManager.startApp(app);
 					}
 				});
 			}
@@ -68,30 +69,34 @@ ListModel {
 	}
 	
 	Component.onCompleted: {
+		// Using Internal API
+		var component = Qt.createComponent('../Core.qml');
+		owaNEXT = component.createObject(parent);
+		owaNEXT.ready.connect(function() {
 
-		HanGee.core.ready.connect(function() {
-			updateApps();
-		});
+			// Package added
+			owaNEXT.packageManager.packageAdded.connect(function() {
+				updateApps();
+			});
 
-		// Package added
-		HanGee.core.packageManager.packageAdded.connect(function() {
-			updateApps();
-		});
+			// Package removed
+			owaNEXT.packageManager.packageRemoved.connect(function(packageName) {
 
-		// Package removed
-		HanGee.core.packageManager.packageRemoved.connect(function(packageName) {
+				for (var i = 0; i < icons.count; i++) {
+					var item = icons.get(i) || null;
+					if (!item)
+						continue;
 
-			for (var i = 0; i < icons.count; i++) {
-				var item = icons.get(i) || null;
-				if (!item)
-					continue;
-
-				if (item.app.packageName == packageName) {
-					console.log(packageName);
-					icons.remove(i);
-					break;
+					if (item.app.packageName == packageName) {
+						console.log(packageName);
+						icons.remove(i);
+						break;
+					}
 				}
-			}
+			});
+
+			updateApps();
 		});
+
 	}
 }
