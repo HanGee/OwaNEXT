@@ -1,18 +1,22 @@
 import QtQuick 2.2
-import './PackageManager'
 
 Item {
 	id: hanGee;
 	signal ready;
 
-	property alias packageManager: packageManager;
+	property Item packageManager;
 
-	PackageManager {
-		id: packageManager;
+	Loader {
+		id: packageManagerLoader;
+		source: './PackageManager/PackageManager.qml';
+		asynchronous: true;
+		onLoaded:{
+			packageManager = packageManagerLoader.item;
+		}
 	}
 
 	Connections {
-		target: packageManager;
+		target: packageManagerLoader.item;
 
 		onReady: {
 			hanGee.ready();

@@ -52,6 +52,7 @@ Item {
 				source: app.iconPath;
 				cache: true;
 				asynchronous: true;
+				smooth: true;
 
 				Rectangle {
 					id: active_layer;
