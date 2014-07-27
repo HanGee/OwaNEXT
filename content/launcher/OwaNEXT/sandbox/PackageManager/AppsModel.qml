@@ -18,7 +18,11 @@ Item {
 
 		for (var i = 0; i < folderModel.count; i++) {
 			var filepath = folderModel.get(i, 'filePath')
-			var foldername = folderModel.get(i, 'fileName');
+			var filename = folderModel.get(i, 'fileName');
+
+			// Skip if it's a directory
+			if (folderModel.isFolder(i))
+				continue;
 
 			// Skip if it's not QML file
 			var namePart = filepath.match(/[^\\]*\.(\w+)$/);
@@ -33,15 +37,15 @@ Item {
 
 			} else {
 				var app = {};
-				app.appName = foldername;
-				app.activityName = foldername;
-				app.packageName = 'org.unknown.' + foldername;
+				app.appName = filename;
+				app.activityName = filename;
+				app.packageName = 'org.unknown.' + filename;
 				app.iconPath = filepath + '/../../defaulticon.png'
 			}
 
 			// Add to list
 			apps.push({
-				_filename: foldername,
+				_filename: filename,
 				appName: app.appName,
 				activity: app.activityName,
 				packageName: app.packageName,
@@ -68,7 +72,6 @@ Item {
 	}
 
 	function updateModel(action) {
-		previousApps = [];
 		previousApps = apps.slice();
 		setupAppsInfo();
 
@@ -85,16 +88,20 @@ Item {
 	}
 
 	ListView {
-		FolderListModel {
+		visible: false;
+		model: FolderListModel {
 			id: folderModel
-			nameFilters: [ '*.qml' ]
-			folder: './apps'
-			onModelReset: {
+			nameFilters: [ '*' ];
+			folder: './apps';
+
+			onDataChanged: {
 				// Reset application list
 				setupAppsInfo();
 
 				if (!initialized) {
 					initialized = true;
+
+					// Fire ready event
 					Utils.setImmediate(function() {
 						appsModel.ready();
 					});
@@ -106,7 +113,5 @@ Item {
 				appsModel.updateModel();
 			}
 		}
-
-		model: folderModel
 	}
 }

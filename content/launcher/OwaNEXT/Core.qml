@@ -12,14 +12,21 @@ Item {
 
 	Loader {
 		id: sandbox;
+		active: false;
 		asynchronous: true;
+		source: './sandbox/Sandbox.qml';
 		onLoaded: {
 			console.log('Initiailized Sandbox');
-			sandbox.item.ready.connect(function() {
+		}
+
+		Connections {
+			target: sandbox.item;
+
+			onReady: {
 				core.packageManager = sandbox.item.packageManager;
 				core.initialized = true;
 				core.ready();
-			});
+			}
 		}
 	}
 
@@ -62,6 +69,6 @@ Item {
 
 		// Sandbox mode
 		console.log('Enabled Sandbox Mode');
-		sandbox.source = './sandbox/Sandbox.qml';
+		sandbox.active = true;
 	}
 }
