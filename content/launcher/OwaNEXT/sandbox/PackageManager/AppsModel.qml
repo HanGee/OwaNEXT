@@ -1,5 +1,6 @@
 import QtQuick 2.2
 import Qt.labs.folderlistmodel 2.1
+import '../../utils.js' as Utils
 
 Item {
 	id: appsModel
@@ -9,12 +10,11 @@ Item {
 	property bool initialized: false;
 
 	signal ready
-	signal appsListChanged
 	signal packageAdded(string appName, string activityName, string packageName, string iconPath)
 	signal packageRemoved(string packageName)
 
 	function setupAppsInfo() {
-		apps.length = []
+		apps = [];
 
 		for (var i = 0; i < folderModel.count; i++) {
 			var filepath = folderModel.get(i, 'filePath')
@@ -91,18 +91,19 @@ Item {
 			folder: './apps'
 			onModelReset: {
 				// Reset application list
-				setupAppsInfo()
-				appsListChanged()
+				setupAppsInfo();
 
 				if (!initialized) {
 					initialized = true;
-					appsModel.ready();
+					Utils.setImmediate(function() {
+						appsModel.ready();
+					});
 					return;
 				}
 			}
 
 			onRowsInserted: {
-				appsModel.updateModel()
+				appsModel.updateModel();
 			}
 		}
 

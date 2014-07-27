@@ -69,6 +69,7 @@ ListModel {
 	}
 	
 	Component.onCompleted: {
+
 		// Using Internal API
 		var component = Qt.createComponent('../Core.qml');
 		owaNEXT = component.createObject(parent);

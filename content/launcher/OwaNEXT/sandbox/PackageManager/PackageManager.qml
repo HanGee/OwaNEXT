@@ -5,7 +5,6 @@ Item {
 	id: manager
 	property alias folder: appsModel.folder
 	signal ready
-	signal packageListReady
 	signal packageRemoved(string packageName)
 	signal packageAdded(string appName, string activityName, string packageName, string iconPath)
 
@@ -23,10 +22,6 @@ Item {
 
 		onReady: {
 			manager.ready();
-		}
-
-		onAppsListChanged: {
-			packageListReady();
 		}
 
 		onPackageRemoved: {
