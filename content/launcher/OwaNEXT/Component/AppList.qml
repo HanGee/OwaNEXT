@@ -23,7 +23,6 @@ ListModel {
 			filters.push('LAUNCHER');
 
 		// Getting app list
-		//apps = HanGee.packageManager.getApps(filters);
 		apps = owaNEXT.packageManager.getApps(filters);
 
 		if (paginable) {
@@ -88,8 +87,8 @@ ListModel {
 					if (!item)
 						continue;
 
+					// Remove specific package
 					if (item.app.packageName == packageName) {
-						console.log(packageName);
 						icons.remove(i);
 						break;
 					}

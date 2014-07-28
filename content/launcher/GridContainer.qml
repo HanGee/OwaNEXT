@@ -29,6 +29,7 @@ Item {
 
 			id: loc
 			anchors.fill: parent
+			propagateComposedEvents: true;
 
 			onClicked: {
 				// Launch application
@@ -55,6 +56,8 @@ Item {
 					curItem.released();
 					curItem = null;
 				}
+
+				mouse.accepted = false;
 			}
 
 			onPressed: {

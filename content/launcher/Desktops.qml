@@ -88,33 +88,44 @@ Item {
 	}
 
 	// Desktops for application icons
-	ListView {
-		id: desktopView;
+	Item {
 		anchors.left: parent.left;
 		anchors.right: parent.right;
 		anchors.top: parent.top;
 		anchors.bottom: paginationBar.top;
-		contentWidth: desktops.width;
-		contentHeight: desktops.height;
-		highlightRangeMode: ListView.StrictlyEnforceRange
-		orientation: ListView.Horizontal;
-		snapMode: ListView.SnapOneItem;
-		cacheBuffer: desktopView.width * model.count;
-		maximumFlickVelocity: width * 6;
-		flickDeceleration: maximumFlickVelocity * 0.6;
-		model: ListModel {}
-		delegate: Desktop {}
 
-		onFlickStarted: {
-			desktopView.currentItem.blur();
+		MouseArea {
+			anchors.fill: parent;
+
+			onPressAndHold: {
+			}
 		}
 
-		onMovementStarted: {
-			desktopView.currentItem.blur();
-		}
+		ListView {
+			id: desktopView;
+			anchors.fill: parent;
+			contentWidth: desktops.width;
+			contentHeight: desktops.height;
+			highlightRangeMode: ListView.StrictlyEnforceRange
+			orientation: ListView.Horizontal;
+			snapMode: ListView.SnapOneItem;
+			cacheBuffer: desktopView.width * model.count;
+			maximumFlickVelocity: width * 6;
+			flickDeceleration: maximumFlickVelocity * 0.6;
+			model: ListModel {}
+			delegate: Desktop {}
 
-		onCurrentIndexChanged: {
-			pagination.currentIndex = currentIndex;
+			onFlickStarted: {
+				desktopView.currentItem.blur();
+			}
+
+			onMovementStarted: {
+				desktopView.currentItem.blur();
+			}
+
+			onCurrentIndexChanged: {
+				pagination.currentIndex = currentIndex;
+			}
 		}
 	}
 
@@ -132,19 +143,7 @@ Item {
 
 		console.log('ADDED DESKTOP');
 	}
-/*
-	Connections {
-		target: HanGee.packageManager;
 
-		onPackageAdded: {
-			initialized = false;
-		}
-
-		onPackageRemoved: {
-			initialized = false;
-		}
-	}
-*/
 	onCountChanged: {
 		var delta = 0;
 		if (lastCount < count)

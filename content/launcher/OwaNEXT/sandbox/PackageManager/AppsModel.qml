@@ -14,7 +14,7 @@ Item {
 	signal packageRemoved(string packageName)
 
 	function setupAppsInfo() {
-		apps = [];
+		var _apps = [];
 
 		for (var i = 0; i < folderModel.count; i++) {
 			var filepath = folderModel.get(i, 'filePath')
@@ -44,16 +44,18 @@ Item {
 			}
 
 			// Add to list
-			apps.push({
+			_apps.push({
 				_filename: filename,
 				appName: app.appName,
 				activity: app.activityName,
 				packageName: app.packageName,
 				iconPath: app.iconPath
-			})
+			});
 
 			//console.log(app.appName + ': ' + app.activityName + ': ' + app.packageName);
 		}
+
+		return _apps;
 	}
 
 	function diffArray(param1, param2) {
@@ -71,17 +73,26 @@ Item {
 		})
 	}
 
-	function updateModel(action) {
-		previousApps = apps.slice();
-		setupAppsInfo();
+	function updateModel() {
+		var newApps = setupAppsInfo();
 
-		if (previousApps.length > apps.length) {
+		if (apps.length > newApps.length) {
 			// Removed package
-			var diff = diffArray(previousApps, apps)
+			var diff = diffArray(apps, newApps)
+
+			// Remove from array
+			var index = apps.indexOf(diff[0]);
+			if (index > -1)
+				apps.splice(index, 1);
+
 			packageRemoved(diff[0].packageName)
-		} else if (previousApps.length < apps.length) {
+		} else if (apps.length < newApps.length) {
 			// Added package
-			var diff = diffArray(apps, previousApps);
+			var diff = diffArray(newApps, apps);
+
+			// Add to array
+			apps.push(diff[0]);
+
 			packageAdded(diff[0].appName, diff[0].activityName,
 						 diff[0].packageName, diff[0].iconPath)
 		}
@@ -96,7 +107,7 @@ Item {
 
 			onDataChanged: {
 				// Reset application list
-				setupAppsInfo();
+				apps = setupAppsInfo();
 
 				if (!initialized) {
 					initialized = true;
