@@ -6,7 +6,7 @@ Item {
 	width: grid.cellWidth;
 	height: grid.cellHeight;
 
-	property int padding: 3;
+	property int padding: 1;
 
 	Item {
 		id: item;
@@ -30,7 +30,7 @@ Item {
 					id: iconLabel;
 					anchors.fill: itemCaption;
 					horizontalAlignment: Text.AlignHCenter;
-					font.pointSize: 10;
+					font.pointSize: 9;
 					color: 'white';
 					text: app.appName;
 					visible: item.state != 'active'

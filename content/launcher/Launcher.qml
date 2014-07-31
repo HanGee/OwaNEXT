@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.0
 import 'OwaNEXT' 1.0
 
-ApplicationWindow {
+AppWindow {
 	visible: true;
 	width: 320;
 	height: 480;
@@ -27,9 +27,21 @@ ApplicationWindow {
 		asynchronous: true;
 	}
 
+	Dock {
+		id: dock;
+		anchors.left: parent.left;
+		anchors.right: parent.right;
+		anchors.bottom: parent.bottom;
+		height: parent.height * 0.15;
+	}
+
 	Desktops {
 		id: desktops;
-		anchors.fill: parent;
+		//anchors.fill: parent;
+		anchors.left: parent.left;
+		anchors.right: parent.right;
+		anchors.top: parent.top;
+		anchors.bottom: dock.top;
 	}
 }
 

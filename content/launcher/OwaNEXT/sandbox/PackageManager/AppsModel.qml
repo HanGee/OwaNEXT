@@ -105,7 +105,7 @@ Item {
 			nameFilters: [ '*' ];
 			folder: './apps';
 
-			onDataChanged: {
+			onModelReset: {
 				// Reset application list
 				apps = setupAppsInfo();
 

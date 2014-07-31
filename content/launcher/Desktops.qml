@@ -99,6 +99,9 @@ Item {
 
 			onPressAndHold: {
 			}
+
+			onPositionChanged: {
+			}
 		}
 
 		ListView {
