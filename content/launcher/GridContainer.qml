@@ -4,10 +4,11 @@ import 'OwaNEXT' 1.0
 
 Item {
 	id: gridContainer;
-	property variant model: null;
+	property alias mouseArea: mouseArea;
+	property alias dropArea: dropArea;
+	property var model: null;
 	property bool layoutable: false;
-	property var curItem: null;
-	property Item owaNEXT;
+	property bool editing: false;
 
 	OwaNEXT {
 		id: owaNEXT;
@@ -15,93 +16,128 @@ Item {
 
 	GridView {
 		id: grid;
-		interactive: false;
 		anchors.fill: parent;
+		anchors.leftMargin: parent.width * 0.05;
+		anchors.rightMargin: parent.width * 0.05;
 		cellWidth: width * 0.25;
-		cellHeight: height * 0.25;
+		cellHeight: height * 0.20;
+		interactive: false;
 		model: parent.model;
-		delegate: IconItem {}
+		//delegate: IconItem {}
 
 		MouseArea {
-			property int currentId: -1
-			property int newIndex;
-			property int index: grid.indexAt(mouseX, mouseY)
+			id: mouseArea;
+			anchors.fill: parent;
+			hoverEnabled: true;
+		}
 
-			id: loc
-			anchors.fill: parent
-			propagateComposedEvents: true;
+		DropArea {
+			id: dropArea;
+			anchors.fill: parent;
+			anchors.leftMargin: parent.width * 0.15;
+			anchors.rightMargin: parent.width * 0.15;
+			property var curItem: null;
+			property var curItemId: -1;
 
-			onClicked: {
-				// Launch application
-				var icon = model.get(index);
-				if (icon) {
-					owaNEXT.packageManager.startApp(icon.app);
+			onEntered: {
+				curItem = null;
+
+				// Exists already in this page
+				for (var i = 0; i < model.count; i++) {
+					var element = model.get(i);
+					if (!element)
+						continue;
+
+					if (model.get(i).app.packageName == drag.source.packageName) {
+						console.log('EXISTS');
+						curItemId = i;
+						curItem = drag.source;
+						break;
+					}
 				}
-			}
+/*
+				// A new item is coming
+				if (!curItem) {
+					model.append({
+						app: drag.source.main.elementInfo.app,
+						owaNEXT: drag.source.main.elementInfo.owaNEXT
+					});
+					curItem = drag.source;
+					curItemId = model.count - 1;
+					curItem = model.get(curItemId);
 
-			onPressAndHold: {
-				// Pick up icon
-				var icon = model.get(index);
-				if (icon) {
-					newIndex = index;
-					currentId = icon.gridId;
+					// Remove from old place
+					drag.source.curParent.removeItem(drag.source);
+					console.log('New Item');
 				}
+*/
+				// Change parent to this container
+				//drag.source.setContainer(gridContainer);
 
 				// Switch to layouting mode
+				editing = true;
 				gridContainer.layoutable = true;
 				desktopView.interactive = false;
-
-				// Disable effect on item
-				if (curItem) {
-					curItem.released();
-					curItem = null;
-				}
-
-				mouse.accepted = false;
 			}
-
-			onPressed: {
-				// Pick up icon
-				curItem = grid.itemAt(mouseX, mouseY);
-				if (curItem)
-					curItem.pressed();
-			}
-
-			onReleased: {
-				currentId = -1;
-				desktopView.interactive = true;
-
-				// Disable effect on item
-				if (curItem) {
-					curItem.released();
-					curItem = null;
-				}
-			}
-
+	/*
 			onExited: {
-				gridContainer.blur();
+				// Item was moved out, we need to remove empty place.
+				//model.remove(curItemId);
+
+				editing = false;
+				desktopView.interactive = true;
+			}
+	*/
+			onDropped: {
+				editing = false;
+				desktopView.interactive = true;
+				console.log('F', drag.source.x, drag.source.y);
 			}
 
 			onPositionChanged: {
+				console.log('DDDDD', drag.x, drag.y);
 
-				// Re-layout icons
-				if (loc.currentId != -1 && index != -1 && index != newIndex) {
-					model.move(newIndex, index, 1);
-					newIndex = index;
+				// Moving in the same page
+				for (var i = 0; i < model.count; i++) {
+					var element = model.get(i);
+					if (!element)
+						continue;
+
+					if (model.get(i).app.packageName == drag.source.packageName) {
+						// Calculate mouse position
+						var index = grid.indexAt(drag.x, drag.y);
+
+						if (i != index && index != -1) {
+							console.log('FROM ' + i + ' TO ' + index);
+							model.move(i, index, 1);
+							curItemId = index;
+						}
+
+						break;
+					}
 				}
 			}
 		}
-
 	}
 
 	signal blur;
 
 	onBlur: {
+	}
 
-		// Disable effect on item
-		if (curItem) {
-			curItem.released();
-			curItem = null;
+	function removeItem(item) {
+		if (!model)
+			return;
+
+		for (var i = 0; i < model.count; i++) {
+			var element = model.get(i);
+			if (!element)
+				continue;
+
+			if (model.get(i).app.packageName == item.packageName) {
+				model.remove(i);
+				break;
+			}
 		}
 	}
 }

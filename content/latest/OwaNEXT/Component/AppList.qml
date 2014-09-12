@@ -46,8 +46,6 @@ ListModel {
 			return;
 		}
 
-		return;
-
 		// No need to do pagination
 		for (var index in apps) {
 			var app = apps[index];

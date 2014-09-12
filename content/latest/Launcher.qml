@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
+import QtGraphicalEffects 1.0
 import 'OwaNEXT' 1.0
 
 AppWindow {
@@ -13,12 +14,13 @@ AppWindow {
 
 		onReady: {
 			console.log('READY');
-			desktops.count = Math.ceil(owaNEXT.packageManager.getApps([ 'LAUNCHER' ]).length / 16);
-			console.log(owaNEXT.packageManager.getApps([ 'LAUNCHER' ]).length);
+			//desktops.count = Math.ceil(owaNEXT.packageManager.getApps([ 'LAUNCHER' ]).length / 16);
+			//console.log(owaNEXT.packageManager.getApps([ 'LAUNCHER' ]).length);
 		}
 	}
 
 	Image {
+		id: background;
 		anchors.fill: parent;
 		source: 'images/background.jpg';
 		cache: true;
@@ -41,6 +43,11 @@ AppWindow {
 		anchors.right: parent.right;
 		anchors.top: parent.top;
 		anchors.bottom: dock.top;
+	}
+
+	Selection {
+		id: selection;
+		anchors.fill: parent;
 	}
 }
 

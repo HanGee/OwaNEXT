@@ -1,7 +1,9 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
 import QtGraphicalEffects 1.0
+import QtQml.Models 2.1
 import 'OwaNEXT' 1.0
+import 'OwaNEXT/Component' 1.0
 
 Item {
 	id: desktops;
@@ -34,7 +36,7 @@ Item {
 		anchors.bottom: desktops.bottom;
 		anchors.left: desktops.left;
 		anchors.right: desktops.right;
-		height: 30;
+		height: 20;
 
 		ListView {
 			id: pagination;
@@ -94,24 +96,24 @@ Item {
 		anchors.top: parent.top;
 		anchors.bottom: paginationBar.top;
 
-		MouseArea {
-			anchors.fill: parent;
-
-			onPressAndHold: {
+		DelegateModel {
+			id: iconModel;
+			delegate: IconDelegate {
+				id: iconDelegate;
 			}
-
-			onPositionChanged: {
+			model: AppList {
+				filter: categoryLauncher;
 			}
 		}
 
 		ListView {
 			id: desktopView;
 			anchors.fill: parent;
-			contentWidth: desktops.width;
-			contentHeight: desktops.height;
 			highlightRangeMode: ListView.StrictlyEnforceRange
 			orientation: ListView.Horizontal;
 			snapMode: ListView.SnapOneItem;
+			//snapMode: ListView.SnapToItem;
+			highlightMoveDuration: 400;
 			cacheBuffer: desktopView.width * model.count;
 			maximumFlickVelocity: width * 6;
 			flickDeceleration: maximumFlickVelocity * 0.6;

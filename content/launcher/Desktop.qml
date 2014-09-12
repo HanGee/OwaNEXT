@@ -13,15 +13,120 @@ Item {
 	GridContainer {
 		id: gridContainer;
 		anchors.fill: parent;
-		anchors.margins: 2;
-		owaNEXT: owaNEXT;
 
+		model: iconModel.parts['desktop.' + desktopId]
+/*
 		model: AppList {
 			paginable: true;
-			count: 16;
+			count: 20;
 			page: desktop.page;
 			filter: categoryLauncher;
 		}
+*/
+	}
+
+	// Pagination panel
+	Item {
+		anchors.fill: parent;
+		visible: gridContainer.editing;
+
+		Rectangle {
+			color: '#ffffff';
+			opacity: 0.15;
+			width: parent.width * 0.10;
+			radius: width * 0.5;
+			scale: 0;
+			anchors.left: parent.left;
+			anchors.top: parent.top;
+			anchors.bottom: parent.bottom;
+			anchors.margins: 10;
+
+			SequentialAnimation on scale {
+				NumberAnimation {
+					from: 0;
+					to: 1;
+					duration: 200;
+					easing.type: Easing.OutQuad;
+				}
+				running: gridContainer.editing;
+				alwaysRunToEnd: true;
+			}
+
+			SequentialAnimation on scale {
+				NumberAnimation {
+					from: 1;
+					to: 0;
+					duration: 200;
+					easing.type: Easing.OutQuad;
+				}
+				running: !gridContainer.editing;
+				alwaysRunToEnd: true;
+			}
+
+			DropArea {
+				anchors.fill: parent;
+
+				onEntered: {
+					console.log('LLLLLLLLL 0');
+				}
+
+				onPositionChanged: {
+					if (desktopId > 0)
+						desktopView.currentIndex = desktopId - 1;
+//					console.log('LLLLLLLLL');
+				}
+			}
+		}
+
+		Rectangle {
+			color: '#ffffff';
+			opacity: 0.15;
+			width: parent.width * 0.10;
+			radius: width * 0.5;
+			scale: 0;
+			anchors.right: parent.right;
+			anchors.top: parent.top;
+			anchors.bottom: parent.bottom;
+			anchors.margins: 10;
+
+			SequentialAnimation on scale {
+				NumberAnimation {
+					from: 0;
+					to: 1;
+					duration: 200;
+					easing.type: Easing.OutQuad;
+				}
+				running: gridContainer.editing;
+				alwaysRunToEnd: true;
+			}
+
+			SequentialAnimation on scale {
+				NumberAnimation {
+					from: 1;
+					to: 0;
+					duration: 200;
+					easing.type: Easing.OutQuad;
+				}
+				running: !gridContainer.editing;
+				alwaysRunToEnd: true;
+			}
+
+			DropArea {
+				anchors.fill: parent;
+
+				onEntered: {
+					console.log('RRRRRRRRR 0');
+				}
+
+				onPositionChanged: {
+					if (desktopId < desktopView.count - 1)
+						desktopView.currentIndex = desktopId + 1;
+
+//					console.log('RRRRRRRRR');
+				}
+			}
+		}
+
 	}
 
 	signal blur();
