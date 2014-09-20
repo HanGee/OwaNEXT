@@ -11,8 +11,6 @@ Item {
             var query = "CREATE TABLE IF NOT EXISTS Position(AppID TEXT, DesktopID INTEGER, PositionID INTEGER)"
             tx.executeSql(query)
         })
-
-        console.log(JSON.parse(select('aaa')).AppID)
     }
 
     function appInfo(AppID, DesktopID, PositionID) {
