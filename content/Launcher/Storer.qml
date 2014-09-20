@@ -13,12 +13,6 @@ Item {
         })
     }
 
-    function appInfo(AppID, DesktopID, PositionID) {
-        this.AppID = AppID
-        this.DesktopID = DesktopID
-        this.PositionID = PositionID
-    }
-
     function insert(AppID, DesktopID, PositionID) {
         db.transaction(function (tx) {
             var query = "INSERT INTO Position VALUES(?, ?, ?)"
