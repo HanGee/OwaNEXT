@@ -39,6 +39,22 @@ Item {
 		}
 	}
 
+	DropArea {
+		anchors.fill: parent;
+		keys: [ 'iconItem' ];
+
+		onEntered: {
+			console.log('ENTERED');
+			if (drag.source.parent != area)
+				addItem(drag.source);
+			//console.log(drag.source);
+		}
+
+		onDropped: {
+			console.log("DROPPPPPPPPPPED");
+		}
+	}
+
 	function addItem(item, index) {
 
 		var _index = (index == null) ? items.length : index;
