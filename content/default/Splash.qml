@@ -99,12 +99,12 @@ Item {
             NumberAnimation {
                 duration: 4000
                 from: 40
-                to: 100
+                to: 50
             }
 
             NumberAnimation {
                 duration: 4000
-                from: 100
+                from: 50
                 to: 40
             }
         }

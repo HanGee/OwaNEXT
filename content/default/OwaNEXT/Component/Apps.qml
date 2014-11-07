@@ -5,14 +5,21 @@ Item {
 
 	property bool paginable: false;
 	property int count: 6;
-	property alias template: repeater.delegate;
+	property Component template: Item {}
 
-	Repeater {
-		id: repeater;
-		model: AppList {
-			filter: categoryLauncher;
-			paginable: apps.paginable;
-			count: apps.count;
+	AppList {
+		id: applist;
+		filter: categoryLauncher;
+		paginable: apps.paginable;
+		count: apps.count;
+
+		onReady: {
+			for (var index = 0; index < applist.count; index++) {
+				var item = template.createObject(apps.parent, {
+					app: applist.apps[index]
+				});
+
+			}
 		}
 	}
 }

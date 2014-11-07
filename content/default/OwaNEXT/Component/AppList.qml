@@ -15,6 +15,8 @@ ListModel {
 	property int page: 1;
 	property var apps: [];
 
+	signal ready();
+
 	function updateApps() {
 		var filters = [];
 
@@ -93,6 +95,8 @@ ListModel {
 			});
 
 			updateApps();
+
+			ready();
 		});
 
 	}
