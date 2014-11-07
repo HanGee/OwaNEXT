@@ -38,20 +38,37 @@ AppWindow {
 		}
 	}
 
-	Dock {
-		id: dock;
-		anchors.left: parent.left;
-		anchors.right: parent.right;
-		anchors.bottom: parent.bottom;
-		height: parent.height * 0.15;
-	}
+	Item {
+		id: homescreen;
+		visible: false;
+		anchors.fill: parent;
 
-	Desktops {
-		id: desktops;
-		anchors.left: parent.left;
-		anchors.right: parent.right;
-		anchors.top: parent.top;
-		anchors.bottom: dock.top;
+		Dock {
+			id: dock;
+			anchors.left: parent.left;
+			anchors.right: parent.right;
+			anchors.bottom: parent.bottom;
+			height: parent.height * 0.15;
+		}
+
+		Desktops {
+			id: desktops;
+			anchors.left: parent.left;
+			anchors.right: parent.right;
+			anchors.top: parent.top;
+			anchors.bottom: dock.top;
+		}
+
+		states: [
+			State {
+				when: !splash.visible;
+
+				PropertyChanges {
+					target: homescreen;
+					visible: true;
+				}
+			}
+		]
 	}
 }
 
