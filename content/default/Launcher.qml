@@ -74,5 +74,10 @@ AppWindow {
 			}
 		]
 	}
+
+	Item {
+		id: clipboard;
+		anchors.fill: parent;
+	}
 }
 

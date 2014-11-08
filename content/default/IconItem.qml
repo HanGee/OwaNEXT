@@ -5,135 +5,136 @@ Item {
 
 	property var app: null;
 	property var keys: [];
+	property alias item: iconObject;
 
 	signal clicked(var mgr);
 	signal pressAndHold(var mgr);
 	signal released(var mgr);
 
-	Drag.active: mouseArea.drag.active;
-	Drag.hotSpot.x: width >> 1;
-	Drag.hotSpot.y: icon.height >> 1;
-	Drag.keys: keys;
+	Item {
+		id: iconObject;
+		width: iconItem.width;
+		height: iconItem.height;
 
-	Column {
-		id: content;
-		anchors.fill: parent;
-		anchors.topMargin: parent.height * 0.1;
-		anchors.leftMargin: parent.width >> 3;
-		anchors.rightMargin: parent.width >> 3;
+		Drag.active: mouseArea.drag.active;
+		Drag.hotSpot.x: width >> 1;
+		Drag.hotSpot.y: icon.height >> 1;
+		Drag.keys: keys;
 
-		Item {
-			id: icon;
-			anchors.left: parent.left;
-			anchors.right: parent.right;
-			height: iconImage.height;
+		Column {
+			id: content;
+			anchors.fill: parent;
+			anchors.topMargin: parent.height * 0.1;
+			anchors.leftMargin: parent.width >> 3;
+			anchors.rightMargin: parent.width >> 3;
 
-			Image {
-				id: iconImage;
+			Item {
+				id: icon;
 				anchors.left: parent.left;
 				anchors.right: parent.right;
-				source: {
-					if (app.iconPath)
-						return app.iconPath;
+				height: iconImage.height;
+
+				Image {
+					id: iconImage;
+					anchors.left: parent.left;
+					anchors.right: parent.right;
+					source: {
+						if (app.iconPath)
+							return app.iconPath;
+
+						return '';
+					}
+					fillMode: Image.PreserveAspectFit;
+					cache: true;
+					asynchronous: true;
+					smooth: true;
+
+					MouseArea {
+						id: mouseArea;
+						anchors.fill: iconImage;
+
+						onClicked: iconItem.clicked(this);
+						onPressAndHold: iconItem.pressAndHold(this);
+						onReleased: iconItem.released(this);
+					}
+				}
+			}
+
+			Text {
+				id: label;
+				anchors.left: parent.left;
+				anchors.right: parent.right;
+				horizontalAlignment: Text.AlignHCenter;
+				font.pointSize: 9;
+				color: '#ffffff';
+				text: {
+					if (app.appName)
+						return app.appName;
 
 					return '';
 				}
-				fillMode: Image.PreserveAspectFit;
-				cache: true;
-				asynchronous: true;
-				smooth: true;
+				wrapMode: Text.WordWrap;
+				maximumLineCount: 2;
+				style: Text.Raised;
+				styleColor: '#44000000';
+	//			visible: !iconOnly;
+			}
+		}
 
-				MouseArea {
-					id: mouseArea;
-					anchors.fill: iconImage;
+		SequentialAnimation on scale {
+			NumberAnimation { to: 1.02; duration: 40 }
+			NumberAnimation { to: 0.98; duration: 90 }
+			NumberAnimation { to: 1.0; duration: 40 }
+			running: iconObject.state == 'movable'
+			loops: Animation.Infinite;
+		}
 
-					onClicked: iconItem.clicked(this);
-					onPressAndHold: iconItem.pressAndHold(this);
-					onReleased: iconItem.released(this);
+		transitions: [
+			Transition {
+				ParentAnimation {
+					target: iconObject;
+
+					NumberAnimation {
+						properties: 'x,y,scale';
+						duration: 400;
+						easing.type: Easing.OutBack
+					}
 				}
 			}
-		}
+		]
 
-		Text {
-			id: label;
-			anchors.left: parent.left;
-			anchors.right: parent.right;
-			horizontalAlignment: Text.AlignHCenter;
-			font.pointSize: 9;
-			color: '#ffffff';
-			text: {
-				if (app.appName)
-					return app.appName;
+		states: [
+			State {
+				name: 'picked';
+				when: iconObject.Drag.active;
 
-				return '';
+				PropertyChanges {
+					target: label;
+					visible: false;
+				}
+
+				ParentChange {
+					target: iconObject;
+					parent: homescreen;
+					x: iconItem.x;
+					y: iconItem.y;
+					scale: 1.2;
+				}
+			},
+			State {
+				name: 'movable';
+				when: appWindow.editing && !iconObject.Drag.active;
 			}
-			wrapMode: Text.WordWrap;
-			maximumLineCount: 2;
-			style: Text.Raised;
-			styleColor: '#44000000';
-//			visible: !iconOnly;
-		}
+		]
 	}
 
-	SequentialAnimation on scale {
-		NumberAnimation { to: 1.02; duration: 40 }
-		NumberAnimation { to: 0.98; duration: 90 }
-		NumberAnimation { to: 1.0; duration: 40 }
-		running: iconItem.state == 'movable'
-		loops: Animation.Infinite;
+	function startDrag() {
+		iconObject.Drag.active = true;
+		mouseArea.drag.target = iconObject;
 	}
 
-	transitions: [
-		Transition {
-			to: 'picked';
-
-			PropertyAnimation {
-				target: iconItem;
-				properties: 'scale';
-				duration: 300;
-				easing.type: Easing.OutBack
-				alwaysRunToEnd: true;
-			}
-		},
-		Transition {
-			from: 'picked';
-
-			PropertyAnimation {
-				target: iconItem;
-				properties: 'scale';
-				duration: 300;
-				easing.type: Easing.OutBack
-				alwaysRunToEnd: true;
-			}
-
-			PropertyAnimation {
-				target: iconItem;
-				properties: 'x,y';
-				duration: 400;
-				easing.type: Easing.OutBack
-				alwaysRunToEnd: true;
-			}
-		}
-	]
-
-	states: [
-		State {
-			name: 'picked';
-			when: iconItem.Drag.active;
-
-			PropertyChanges {
-				target: iconItem;
-				scale: 1.2;
-			}
-
-			PropertyChanges {
-				target: label;
-				visible: false;
-			}
-		},
-		State {
-			name: 'movable';
-			when: appWindow.editing && !iconItem.picked;
-		}
-	]
+	function drop() {
+		iconObject.Drag.drop();
+		mouseArea.drag.target = null;
+	}
 }

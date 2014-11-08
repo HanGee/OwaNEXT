@@ -24,16 +24,14 @@ Item {
 					appWindow.editing = true;
 
 					// Start dragging
-					mgr.drag.target = this;
-					this.Drag.active = true;
+					this.startDrag();
 				}
 
 				onReleased: {
 					appWindow.editing = false;
 
 					// Stop dragging
-					this.Drag.drop();
-					mgr.drag.target = null;
+					this.drop();
 				}
 			}
 		}
