@@ -35,6 +35,7 @@ Item {
 					anchors.fill: parent;
 
 					onPressed: {
+						owaNEXT.packageManager.startApp(app);
 					}
 				}
 			}

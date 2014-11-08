@@ -7,8 +7,10 @@ Item {
 	property int iconSize: 4;
 	property int tileWidth: iconArea.width / tileContainer.columns;
 	property int tileHeight: iconArea.height / tileContainer.rows;
+	property alias keys: dropArea.keys;
 
 	DropArea {
+		id: dropArea;
 		anchors.fill: parent;
 
 		Grid {

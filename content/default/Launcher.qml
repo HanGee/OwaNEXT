@@ -18,6 +18,7 @@ AppWindow {
 	Splash {
 		id: splash;
 		anchors.fill: parent;
+		opacity: 0;
 		visible: (!opacity) ? false : true;
 
 		// Only show 10 seconds
