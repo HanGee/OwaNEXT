@@ -30,6 +30,13 @@ Item {
 				cache: true;
 				asynchronous: true;
 				smooth: true;
+
+				MouseArea {
+					anchors.fill: parent;
+
+					onPressed: {
+					}
+				}
 			}
 		}
 

@@ -1,8 +1,12 @@
 import QtQuick 2.3
-import 'OwaNEXT/Component' 1.0
 
 Item {
 	id: iconArea;
+
+	default property alias children: tileContainer.children;
+	property int iconSize: 4;
+	property int tileWidth: iconArea.width / tileContainer.columns;
+	property int tileHeight: iconArea.height / tileContainer.rows;
 
 	DropArea {
 		anchors.fill: parent;
@@ -13,19 +17,6 @@ Item {
 			columns: 4;
 			rows: 5;
 			horizontalItemAlignment: Grid.AlignHCenter;
-
-			property int tileWidth: iconArea.width / columns;
-			property int tileHeight: iconArea.height / rows;
-
-			Apps {
-				paginable: true;
-				count: 6;
-				template: IconItem {
-					width: tileContainer.tileWidth;
-					height: tileContainer.tileHeight;
-				}
-			}
-
 		}
 	}
 }
