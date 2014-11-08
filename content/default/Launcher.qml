@@ -2,10 +2,13 @@ import QtQuick 2.0
 import 'OwaNEXT' 1.0
 
 AppWindow {
+	id: appWindow;
 	visible: true;
 	width: 320;
 	height: 640;
 	color: 'black';
+
+	property bool editing: false;
 
 	OwaNEXT {
 		id: owaNEXT;

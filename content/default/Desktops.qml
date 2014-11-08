@@ -14,6 +14,27 @@ Item {
 			template: IconItem {
 				width: iconArea.tileWidth;
 				height: iconArea.tileHeight;
+				keys: [ 'IconItem' ]
+
+				onClicked: {
+					owaNEXT.packageManager.startApp(app);
+				}
+
+				onPressAndHold: {
+					appWindow.editing = true;
+
+					// Start dragging
+					mgr.drag.target = this;
+					this.Drag.active = true;
+				}
+
+				onReleased: {
+					appWindow.editing = false;
+
+					// Stop dragging
+					this.Drag.drop();
+					mgr.drag.target = null;
+				}
 			}
 		}
 	}
