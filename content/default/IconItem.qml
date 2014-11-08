@@ -34,7 +34,7 @@ Item {
 				MouseArea {
 					anchors.fill: parent;
 
-					onPressed: {
+					onClicked: {
 						owaNEXT.packageManager.startApp(app);
 					}
 				}
