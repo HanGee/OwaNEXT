@@ -125,6 +125,11 @@ Item {
 				target: iconItem;
 				scale: 1.2;
 			}
+
+			PropertyChanges {
+				target: label;
+				visible: false;
+			}
 		},
 		State {
 			name: 'movable';
