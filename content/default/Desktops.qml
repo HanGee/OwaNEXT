@@ -7,32 +7,49 @@ Item {
 	IconArea {
 		id: iconArea;
 		anchors.fill: parent;
+		keys: [ 'IconItem' ]
 
-		Apps {
+		model: AppList {
 			paginable: true;
 			count: 8;
-			template: IconItem {
-				width: iconArea.tileWidth;
-				height: iconArea.tileHeight;
-				keys: [ 'IconItem' ]
+		}
 
-				onClicked: {
-					owaNEXT.packageManager.startApp(app);
-				}
+		delegate: IconItem {
+			width: iconArea.tileWidth;
+			height: iconArea.tileHeight;
+			keys: [ 'IconItem' ]
 
-				onPressAndHold: {
-					appWindow.editing = true;
+			onClicked: {
+				owaNEXT.packageManager.startApp(app);
+			}
 
-					// Start dragging
-					this.startDrag();
-				}
+			onPressAndHold: {
+				appWindow.editing = true;
 
-				onReleased: {
-					appWindow.editing = false;
+				// Start dragging
+				this.startDrag();
+			}
 
-					// Stop dragging
-					this.drop();
-				}
+			onReleased: {
+				appWindow.editing = false;
+
+				// Stop dragging
+				this.drop();
+			}
+
+			onSlippingRequested: {
+				var from = iconArea.indexAt(source.x, source.y);
+				var target = iconArea.indexAt(this.x, this.y);
+
+				// Cannot figure out correct position
+				if (from == -1 || target == -1)
+					return;
+
+				// No change
+				if (from == target)
+					return;
+
+				iconArea.model.move(from, target, 1);
 			}
 		}
 	}

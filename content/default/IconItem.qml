@@ -3,13 +3,14 @@ import QtQuick 2.3
 Item {
 	id: iconItem;
 
-	property var app: null;
 	property var keys: [];
 	property alias item: iconObject;
 
 	signal clicked(var mgr);
 	signal pressAndHold(var mgr);
 	signal released(var mgr);
+	signal groupingRequested;
+	signal slippingRequested(var source);
 
 	Item {
 		id: iconObject;
@@ -20,6 +21,8 @@ Item {
 		Drag.hotSpot.x: width >> 1;
 		Drag.hotSpot.y: icon.height >> 1;
 		Drag.keys: keys;
+
+		property Item ref: iconItem;
 
 		Column {
 			id: content;
@@ -52,11 +55,13 @@ Item {
 					MouseArea {
 						id: mouseArea;
 						anchors.fill: iconImage;
+						drag.filterChildren: true;
 
 						onClicked: iconItem.clicked(this);
 						onPressAndHold: iconItem.pressAndHold(this);
 						onReleased: iconItem.released(this);
 					}
+
 				}
 			}
 
@@ -65,7 +70,7 @@ Item {
 				anchors.left: parent.left;
 				anchors.right: parent.right;
 				horizontalAlignment: Text.AlignHCenter;
-				font.pointSize: 9;
+				font.pointSize: 10;
 				color: '#ffffff';
 				text: {
 					if (app.appName)
@@ -77,7 +82,6 @@ Item {
 				maximumLineCount: 2;
 				style: Text.Raised;
 				styleColor: '#44000000';
-	//			visible: !iconOnly;
 			}
 		}
 
@@ -98,6 +102,7 @@ Item {
 						properties: 'x,y,scale';
 						duration: 400;
 						easing.type: Easing.OutBack
+						alwaysRunToEnd: true;
 					}
 				}
 			}
@@ -116,16 +121,47 @@ Item {
 				ParentChange {
 					target: iconObject;
 					parent: homescreen;
-					x: iconItem.x;
-					y: iconItem.y;
 					scale: 1.2;
 				}
 			},
 			State {
 				name: 'movable';
 				when: appWindow.editing && !iconObject.Drag.active;
+			},
+			State {
+				when: !iconObject.Drag.active;
+
+				PropertyChanges {
+					target: iconObject;
+					restoreEntryValues: false;
+					x: 0;
+					y: 0;
+				}
 			}
 		]
+	}
+
+	DropArea {
+		anchors.fill: parent;
+
+		onEntered: {
+			iconItem.slippingRequested(drag.source.ref);
+		}
+
+		// Can be grouped with this icon
+		DropArea {
+			x: iconImage.x;
+			y: iconImage.y;
+			width: iconImage.width;
+			height: iconImage.height;
+			keys: iconItem.keys;
+			enabled: !iconObject.Drag.active;
+
+			onEntered: {
+				iconItem.groupingRequested();
+				console.log(app.appName);
+			}
+		}
 	}
 
 	function startDrag() {

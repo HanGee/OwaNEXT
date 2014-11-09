@@ -5,5 +5,6 @@ Item {
 
 	IconArea {
 		anchors.fill: parent;
+		keys: [ 'IconItem' ]
 	}
 }
