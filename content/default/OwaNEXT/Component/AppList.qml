@@ -70,7 +70,7 @@ ListModel {
 
 		// Loading Internal API
 		var component = Qt.createComponent('../Core.qml');
-		owaNEXT = component.createObject(parent);
+		owaNEXT = component.createObject();
 		owaNEXT.ready.connect(function() {
 
 			// Package added

@@ -6,6 +6,7 @@ Item {
 	property var keys: [];
 	property alias item: iconObject;
 
+	signal placeChanged(string placeName);
 	signal clicked(var mgr);
 	signal pressAndHold(var mgr);
 	signal released(var mgr);

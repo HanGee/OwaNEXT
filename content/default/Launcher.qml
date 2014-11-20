@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import 'OwaNEXT' 1.0
+import 'OwaNEXT/Component' 1.0
 
 AppWindow {
 	id: appWindow;
@@ -46,6 +47,42 @@ AppWindow {
 		id: homescreen;
 		visible: false;
 		anchors.fill: parent;
+
+		property int iconWidth: width / 4;
+		property int iconHeight: height / 5;
+
+		AppIcons {
+			id: appIcons;
+			places: [
+				'desktop',
+				'dock'
+			];
+
+			template: IconItem {
+				width: homescreen.iconWidth;
+				height: homescreen.iconHeight;
+				keys: [ 'IconItem' ]
+
+				onClicked: {
+					owaNEXT.packageManager.startApp(app);
+				}
+
+				onPressAndHold: {
+					appWindow.editing = true;
+
+					// Start dragging
+					this.startDrag();
+				}
+
+				onReleased: {
+					appWindow.editing = false;
+
+					// Stop dragging
+					this.drop();
+				}
+			}
+
+		}
 
 		Dock {
 			id: dock;

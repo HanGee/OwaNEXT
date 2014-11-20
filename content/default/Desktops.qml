@@ -8,12 +8,15 @@ Item {
 		id: iconArea;
 		anchors.fill: parent;
 		keys: [ 'IconItem' ]
-
+		placeName: 'desktop';
+		model: appIcons;
+		/*
 		model: AppList {
 			paginable: true;
 			count: 8;
 		}
-
+		*/
+/*
 		delegate: IconItem {
 			width: iconArea.tileWidth;
 			height: iconArea.tileHeight;
@@ -50,7 +53,10 @@ Item {
 					return;
 
 				iconArea.model.move(from, target, 1);
+				var x = iconArea.model.get(target);
+				console.log(x);
 			}
 		}
+*/
 	}
 }
